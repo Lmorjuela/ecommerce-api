@@ -1,63 +1,15 @@
-const catchError = require('../utils/catchError');
-const Cart = require('../models/Cart');
+//Todas las rutas son protegidas
+const { getAll, create, remove, update } = require('../controllers/cart.controller');
+const express = require('express');
 
-const getAll = catchError(async (req, res) => {
-  const userId = req.user.id
-  const results = await Cart.findAll({
-    where: { userId },
-    include: [
-      {
-        model: Product,
-        attributes: { exclude: ["createdAt", "updatedAt"] },
-        include: [
-          {
-            model: Category,
-            attributes: ['name']
-          },
-        ]
+const routerCart = express.Router();
 
-      }
-    ]
-  });
-  return res.json(results);
-});
+routerCart.route('/')
+  .get(getAll)
+  .post(create);
 
-const create = catchError(async (req, res) => {
-  const userId = req.user.id
-  const { productId, quantity } = req.body
-  const body =
-  {
-    quantity,
-    productId,
-    userId
-  }
-  const result = await Cart.create(body);
-  return res.status(201).json(result);
-});
+routerCart.route('/:id') 
+  .delete(remove)
+  .put(update);
 
-const remove = catchError(async (req, res) => {
-  const { id } = req.params;
-  const result = await Cart.destroy({ where: { id, userId: req.user.id } });
-  if (!result) res.sendStatus(404)
-  return res.sendStatus(204);
-});
-
-const update = catchError(async (req, res) => {
-  const { id } = req.params;
-  const userId = req.user.id
-  const { quantity } = req.body
-  const result = await Cart.update(
-    { quantity },
-    { where: { id, userId }, returning: true }
-    // { where: { id, userId:req.user.id }, returning: true }
-  );
-  if (result[0] === 0) return res.sendStatus(404);
-  return res.json(result[1][0]);
-});
-
-module.exports = {
-  getAll,
-  create,
-  remove,
-  update
-}
+module.exports = routerCart;
