@@ -3,6 +3,7 @@ const Purchase = require('../models/Purchase');
 const Cart = require('../models/Cart');
 const Product = require('../models/Product');
 const Category = require('../models/Category');
+const ProductImg = require('../models/ProductImg');
 
 
 const getAll = catchError(async (req, res) => {
