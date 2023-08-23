@@ -37,12 +37,12 @@ beforeAll(async () => {
   product = await Product.create(productBody)
 
   //CART
-  bodyCart = {
+bodyCart = {
     quantity: 1,
     productId: product.id
-  }
+}
 
-  await request(app)
+await request(app)
     .post('/api/v1/cart')
     .send(bodyCart)
     .set("Authorization", `Bearer ${TOKEN}`)

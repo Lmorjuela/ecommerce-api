@@ -5,7 +5,6 @@ const ProductImg = require("./ProductImg");
 const Purchase = require("./Purchase");
 const User = require("./User");
 
-
 //Product -> categoryId
 Product.belongsTo(Category)
 Category.hasMany(Product)

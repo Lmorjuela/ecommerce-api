@@ -18,6 +18,9 @@ const getAll = catchError(async (req, res) => {
             model: Category,
             attributes: ['name']
           },
+          {
+            model: ProductImg
+          }
         ]
 
       }
