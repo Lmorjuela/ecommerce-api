@@ -38,28 +38,29 @@ beforeAll(async () => {
 test("POST -> 'URL_BASE', should return status code 201 and res.body.quantity === bodyCart.quantity", async () => {
 
     const bodyCart = {
-        quantity: 1,
-        productId: product.id
+      quantity: 1,
+      productId: product.id
     }
-
+  
     const res = await request(app)
-        .post(URL_BASE)
-        .send(bodyCart)
-        .set("Authorization", `Bearer ${TOKEN}`)
-
+      .post(URL_BASE)
+      .send(bodyCart)
+      .set("Authorization", `Bearer ${TOKEN}`)
+  
     cartId = res.body.id
-
+  
     expect(res.status).toBe(201)
     expect(res.body).toBeDefined()
     expect(res.body.quantity).toBe(bodyCart.quantity)
     expect(res.body.userId).toBe(userId)
-})
-
-test("GET -> 'URL_BASE',should return status code 200 and res.body.length === 1", async () => {
+  })
+  
+  test("GET -> 'URL_BASE',should return status code 200 and res.body.length === 1", async () => {
     const res = await request(app)
-        .get(URL_BASE)
-        .set("Authorization", `Bearer ${TOKEN}`)
+      .get(URL_BASE)
+      .set("Authorization", `Bearer ${TOKEN}`)
     console.log(res.body);
+  
     expect(res.status).toBe(200)
     expect(res.body).toBeDefined()
     expect(res.body).toHaveLength(1)
@@ -67,31 +68,34 @@ test("GET -> 'URL_BASE',should return status code 200 and res.body.length === 1"
     expect(res.body[0].product).toBeDefined()
     expect(res.body[0].productId).toBe(product.id)
     expect(res.body[0].product.id).toBe(product.id)
-
-})
-
-test("PUT -> 'URL_BASE/:id',should return status code 200 and res.body.quantity === bodyUpdate.quantity", async () => {
+    expect(res.body[0].product.productImgs).toBeDefined()
+    expect(res.body[0].product.productImgs).toHaveLength(0)
+  
+  })
+  
+  test("PUT -> 'URL_BASE/:id',should return status code 200 and res.body.quantity === bodyUpdate.quantity", async () => {
     const bodyUpdate = {
-        quantity: 2
+      quantity: 2
     }
-
+  
     const res = await request(app)
-        .put(`${URL_BASE}/${cartId}`)
-        .send(bodyUpdate)
-        .set("Authorization", `Bearer ${TOKEN}`)
-
+      .put(`${URL_BASE}/${cartId}`)
+      .send(bodyUpdate)
+      .set("Authorization", `Bearer ${TOKEN}`)
+  
     expect(res.status).toBe(200)
     expect(res.body).toBeDefined()
     expect(res.body.quantity).toBe(bodyUpdate.quantity)
-
-})
-
-test("DELETE -> 'URL_BASE/:id',should return status code 204", async () => {
-
+  
+  })
+  
+  
+  test("DELETE -> 'URL_BASE/:id',should return status code 204", async () => {
+  
     const res = await request(app)
-        .delete(`${URL_BASE}/${cartId}`)
-        .set("Authorization", `Bearer ${TOKEN}`)
-
+      .delete(`${URL_BASE}/${cartId}`)
+      .set("Authorization", `Bearer ${TOKEN}`)
+  
     expect(res.status).toBe(204)
     await product.destroy()
-})
+  })
