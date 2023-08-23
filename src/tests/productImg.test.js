@@ -1,6 +1,7 @@
 const request = require("supertest")
 const app = require("../app")
 const path = require("path")
+const { log } = require("console")
 
 const URL_BASE_USERS = "/api/v1/users"
 const URL_BASE= "/api/v1/product_images"
@@ -47,8 +48,7 @@ test("GET -> 'URL_BASE', should resturn status code 200 and res.body.legnth = 1"
     expect(res.body).toHaveLength(1)
   })
 
-test("DELETE -> 'URL_BASE/:id', should resturn status code 204", async () => {
-
+  test("DELETE -> 'URL_BASE/:id', should status code 204 ", async () => {
     const res = await request(app)
       .delete(`${URL_BASE}/${imageId}`)
       .set("Authorization", `Bearer ${TOKEN}`)
