@@ -2,6 +2,7 @@ const { getAll, create, getOne, remove, update, setImage } = require('../control
 const express = require('express');
 const verifyJWT = require('../utils/verifYJWT');
 
+
 const routerProduct = express.Router();
 
 routerProduct.route('/')

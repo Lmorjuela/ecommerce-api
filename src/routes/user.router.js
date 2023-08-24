@@ -3,6 +3,7 @@ const express = require('express');
 const verifyJWT = require('../utils/verifYJWT');
 
 
+
 const routerUser = express.Router();
 
 routerUser.route('/')
